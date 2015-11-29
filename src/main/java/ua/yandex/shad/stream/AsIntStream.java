@@ -1,7 +1,11 @@
 package ua.yandex.shad.stream;
 
 import ua.yandex.shad.collections.DynamicArray;
-import ua.yandex.shad.function.*;
+import ua.yandex.shad.function.IntBinaryOperator;
+import ua.yandex.shad.function.IntConsumer;
+import ua.yandex.shad.function.IntPredicate;
+import ua.yandex.shad.function.IntToIntStreamFunction;
+import ua.yandex.shad.function.IntUnaryOperator;
 
 public class AsIntStream implements IntStream {
     private DynamicArray<Integer> values;
@@ -12,14 +16,14 @@ public class AsIntStream implements IntStream {
 
     public static IntStream of(int... values) {
         DynamicArray<Integer> newValues = new DynamicArray<>();
-        for (Integer value : values) {
+        for (int value : values) {
             newValues.add(value);
         }
         return new AsIntStream(newValues);
     }
 
     @Override
-    public Double average() {
+    public double average() {
         long sum = 0;
         for (Integer value : values) {
             sum += value;
@@ -28,7 +32,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public Integer max() {
+    public int max() {
         Integer max = Integer.MIN_VALUE;
         for (Integer value : values) {
             if (value > max) {
@@ -39,7 +43,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public Integer min() {
+    public int min() {
         Integer min = Integer.MAX_VALUE;
         for (Integer value : values) {
             if (value < min) {
@@ -91,7 +95,7 @@ public class AsIntStream implements IntStream {
     }
 
     @Override
-    public Integer sum() {
+    public int sum() {
         return reduce(0, (x, y) -> x + y);
     }
 

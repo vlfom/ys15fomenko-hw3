@@ -18,21 +18,21 @@ public class AsIntStreamTest {
 
     @Test
     public void testAverage() throws Exception {
-        assertEquals(Double.valueOf(0), intStream.average());
-        assertEquals(Double.valueOf(1), intStream.map(x -> x + 1).average());
-        assertEquals(Double.valueOf(-1), intStream.map(x -> x - 1).average());
+        assertEquals(0, intStream.average(), 1e-9);
+        assertEquals(1, intStream.map(x -> x + 1).average(), 1e-9);
+        assertEquals(-1, intStream.map(x -> x - 1).average(), 1e-9);
     }
 
     @Test
     public void testMax() throws Exception {
-        assertEquals(Integer.valueOf(5), intStream.max());
-        assertEquals(Integer.valueOf(-1), intStream.filter(x -> x < 0).max());
+        assertEquals(5, intStream.max());
+        assertEquals(5, intStream.filter(x -> x < 0).map(x -> -x).max());
     }
 
     @Test
     public void testMin() throws Exception {
-        assertEquals(Integer.valueOf(-5), intStream.min());
-        assertEquals(Integer.valueOf(1), intStream.filter(x -> x > 0).min());
+        assertEquals(-5, intStream.min());
+        assertEquals(1, intStream.filter(x -> x > 0).min());
     }
 
     @Test
@@ -70,7 +70,7 @@ public class AsIntStreamTest {
 
     @Test
     public void testMap() throws Exception {
-        assertEquals(Integer.valueOf(70), intStream.map(x -> x * x).sum());
+        assertEquals(70, intStream.map(x -> x * x).sum());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class AsIntStreamTest {
 
     @Test
     public void testSum() throws Exception {
-        assertEquals(Integer.valueOf(-6), intStream.map(x -> x ^ 13).sum());
+        assertEquals(-6, intStream.map(x -> x ^ 13).sum());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class AsIntStreamTest {
 
     @Test
     public void testFlatMap() throws Exception {
-        assertEquals(Integer.valueOf(258), intStream.flatMap(
+        assertEquals(258, intStream.flatMap(
                 (x) -> AsIntStream.of(3 * x * x + 2 * x + 5, 4 * x + 3)).sum());
     }
 }

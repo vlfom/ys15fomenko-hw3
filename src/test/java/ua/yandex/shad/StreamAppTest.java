@@ -12,6 +12,7 @@ import ua.yandex.shad.stream.IntStream;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author andrii
@@ -24,6 +25,12 @@ public class StreamAppTest {
     public void init() {
         int[] intArr = {-1, 0, 1, 2, 3};
         intStream = AsIntStream.of(intArr);
+    }
+
+    @Test
+    public void testConstructor() {
+        StreamApp streamApp = new StreamApp();
+        assertNotNull(streamApp);
     }
 
     @Test

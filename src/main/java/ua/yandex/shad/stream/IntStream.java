@@ -1,14 +1,18 @@
 package ua.yandex.shad.stream;
 
-import ua.yandex.shad.function.*;
+import ua.yandex.shad.function.IntBinaryOperator;
+import ua.yandex.shad.function.IntConsumer;
+import ua.yandex.shad.function.IntPredicate;
+import ua.yandex.shad.function.IntToIntStreamFunction;
+import ua.yandex.shad.function.IntUnaryOperator;
 
 public interface IntStream {
 
-    Double average();
+    double average();
 
-    Integer max();
+    int max();
 
-    Integer min();
+    int min();
 
     IntStream flatMap(IntToIntStreamFunction func);
 
@@ -22,7 +26,7 @@ public interface IntStream {
 
     int reduce(int identity, IntBinaryOperator op);
 
-    Integer sum();
+    int sum();
 
     int[] toArray();
 }
