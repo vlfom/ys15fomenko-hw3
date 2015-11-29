@@ -25,7 +25,7 @@ public class AsIntStream implements IntStream {
     @Override
     public double average() {
         long sum = 0;
-        for (Integer value : values) {
+        for (int value : values) {
             sum += value;
         }
         return sum * 1.0 / Math.max(values.size(), 1);
@@ -33,8 +33,8 @@ public class AsIntStream implements IntStream {
 
     @Override
     public int max() {
-        Integer max = Integer.MIN_VALUE;
-        for (Integer value : values) {
+        int max = Integer.MIN_VALUE;
+        for (int value : values) {
             if (value > max) {
                 max = value;
             }
@@ -44,8 +44,8 @@ public class AsIntStream implements IntStream {
 
     @Override
     public int min() {
-        Integer min = Integer.MAX_VALUE;
-        for (Integer value : values) {
+        int min = Integer.MAX_VALUE;
+        for (int value : values) {
             if (value < min) {
                 min = value;
             }
@@ -61,7 +61,7 @@ public class AsIntStream implements IntStream {
     @Override
     public IntStream filter(IntPredicate predicate) {
         DynamicArray<Integer> filtered = new DynamicArray<>();
-        for (Integer value : values) {
+        for (int value : values) {
             if (predicate.test(value)) {
                 filtered.add(value);
             }
@@ -71,7 +71,7 @@ public class AsIntStream implements IntStream {
 
     @Override
     public void forEach(IntConsumer action) {
-        for (Integer value : values) {
+        for (int value : values) {
             action.accept(value);
         }
     }
@@ -88,7 +88,7 @@ public class AsIntStream implements IntStream {
     @Override
     public int reduce(int identity, IntBinaryOperator op) {
         int result = identity;
-        for (Integer value : values) {
+        for (int value : values) {
             result = op.apply(result, value);
         }
         return result;
@@ -111,8 +111,8 @@ public class AsIntStream implements IntStream {
     @Override
     public IntStream flatMap(IntToIntStreamFunction func) {
         DynamicArray<Integer> newValues = new DynamicArray<>();
-        for (Integer value : values) {
-            for (Integer newValue : func.applyAsIntStream(value).toArray()) {
+        for (int value : values) {
+            for (int newValue : func.applyAsIntStream(value).toArray()) {
                 newValues.add(newValue);
             }
         }
