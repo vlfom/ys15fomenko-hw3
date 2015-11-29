@@ -1,0 +1,118 @@
+package ua.yandex.shad.stream;
+
+import ua.yandex.shad.collections.DynamicArray;
+import ua.yandex.shad.function.*;
+
+public class AsIntStream implements IntStream {
+    private DynamicArray<Integer> values;
+
+    private AsIntStream(DynamicArray<Integer> values) {
+        this.values = values;
+    }
+
+    public static IntStream of(int... values) {
+        DynamicArray<Integer> newValues = new DynamicArray<>();
+        for (Integer value : values) {
+            newValues.add(value);
+        }
+        return new AsIntStream(newValues);
+    }
+
+    @Override
+    public Double average() {
+        long sum = 0;
+        for (Integer value : values) {
+            sum += value;
+        }
+        return sum * 1.0 / Math.max(values.size(), 1);
+    }
+
+    @Override
+    public Integer max() {
+        Integer max = Integer.MIN_VALUE;
+        for (Integer value : values) {
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
+    }
+
+    @Override
+    public Integer min() {
+        Integer min = Integer.MAX_VALUE;
+        for (Integer value : values) {
+            if (value < min) {
+                min = value;
+            }
+        }
+        return min;
+    }
+
+    @Override
+    public long count() {
+        return values.size();
+    }
+
+    @Override
+    public IntStream filter(IntPredicate predicate) {
+        DynamicArray<Integer> filtered = new DynamicArray<>();
+        for (Integer value : values) {
+            if (predicate.test(value)) {
+                filtered.add(value);
+            }
+        }
+        return new AsIntStream(filtered);
+    }
+
+    @Override
+    public void forEach(IntConsumer action) {
+        for (Integer value : values) {
+            action.accept(value);
+        }
+    }
+
+    @Override
+    public IntStream map(IntUnaryOperator mapper) {
+        DynamicArray<Integer> newValues = new DynamicArray<>();
+        for (int i = 0; i < values.size(); ++i) {
+            newValues.add(mapper.apply(values.get(i)));
+        }
+        return new AsIntStream(newValues);
+    }
+
+    @Override
+    public int reduce(int identity, IntBinaryOperator op) {
+        int result = identity;
+        for (Integer value : values) {
+            result = op.apply(result, value);
+        }
+        return result;
+    }
+
+    @Override
+    public Integer sum() {
+        return reduce(0, (x, y) -> x + y);
+    }
+
+    @Override
+    public int[] toArray() {
+        int[] array = new int[values.size()];
+        for (int i = 0; i < values.size(); ++i) {
+            array[i] = values.get(i);
+        }
+        return array;
+    }
+
+    @Override
+    public IntStream flatMap(IntToIntStreamFunction func) {
+        DynamicArray<Integer> newValues = new DynamicArray<>();
+        for (Integer value : values) {
+            for (Integer newValue : func.applyAsIntStream(value).toArray()) {
+                newValues.add(newValue);
+            }
+        }
+        return new AsIntStream(newValues);
+    }
+
+}
